@@ -1,19 +1,12 @@
-class Person {
-    String name
+show = { println it }
+square_root = { Math.sqrt(it) }
+
+def please(action){
+    [the : { what ->
+        [of : { n -> action(what(n)) }]
+    }]
 }
 
-class Car {
-    String name
-}
-def person = new Person(name:'Igor')
-name="Bedril"
+// please(show).the(square_root).of(100)
 
-def cl = { name.toUpperCase() }
-cl.delegate=person
-cl.resolveStrategy=Closure.DELEGATE_FIRST
-assert cl() == 'IGOR'
-
-
-Car car = ["name":"Peugeot"]
-cl.delegate=car
-assert cl() == 'PEUGEOT'
+please show the square_root of 100

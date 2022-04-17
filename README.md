@@ -65,4 +65,46 @@ A closure may reference variables declared in its surrounding scope. In oppositi
         - Closure.DELEGATE_ONLY will only resolve the property/method lookup on the delegate: the owner will be ignored.
         - Closure.TO_SELF can be used by developers who need advanced meta-programming techniques and wish to implement a custom resolution strategy: the resolution will not be made on the owner or the delegate but only on the closure class itself. It makes only sense to use this if you implement your own subclass of Closure.
 
-           
+
+#### DSL (Domain Specific Language)  
+
+1. Command chains
+
+Groovy lets you omit parentheses around the arguments of a method call for top-level statements. "command chain" feature extends this by allowing us to chain such parentheses-free method calls, requiring neither parentheses around arguments, nor dots between the chained calls. The general idea is that a call like a b c d will actually be equivalent to a(b).c(d). 
+
+```groovy
+// equivalent to: turn(left).then(right)
+turn left then right
+
+// equivalent to: take(2.pills).of(chloroquinine).after(6.hours)
+take 2.pills of chloroquinine after 6.hours
+
+// equivalent to: paint(wall).with(red, green).and(yellow)
+paint wall with red, green and yellow
+
+// with named parameters too
+// equivalent to: check(that: margarita).tastes(good)
+check that: margarita tastes good
+
+// with closures as parameters
+// equivalent to: given({}).when({}).then({})
+given { } when { } then { }
+
+```
+
+
+2.Explaining delegation strategy at compile time
+
+The Groovy language is a platform of choice for building DSLs. Using closures, it’s quite easy to create custom control structures, as well as it is simple to create builders. Imagine that you have the following code:
+
+```groovy
+email {
+    from 'not-reply@econbank.com'
+    to 'dorgeles@yahoo.com'
+    subject 'Your account is empty'
+    body {
+        p 'Your account is empty now. Please you can not purchase'
+    }
+}
+```
+
